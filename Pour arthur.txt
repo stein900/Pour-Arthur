@@ -1,0 +1,525 @@
+
+#include<iostream>
+#include<vector>
+#include <time.h>
+using namespace std;
+
+void menu(char& c);
+
+int jeuExplicatif()
+{
+	int entree = 0;
+	char choix = ' ';
+	//création des variables
+	float saisie;
+	char reesayer = 'f';
+	//fonction pour selectionner un nombres aléatoire en 0 et 100.
+	srand(time(NULL));
+	int res1 = rand() % 100;
+	//initialisation des variables essaie et NbEssaie.
+	int ess = 777;
+	int nbess = 0;
+	//Variable pour entrée une difficulté de niveau
+	char choixNiveau;
+	//scores effectué
+	int scoreTotal = 0;
+	vector<double> Vcase;
+
+	cout << "Voulez vous jouer ? (o:n): " << endl;
+	cin >> choix;
+
+
+
+	if (choix == 'o' || choix == 'O')
+	{
+
+		//Menu du début du jeu
+
+		menu(choixNiveau);
+
+		//Fonction pour éffacer tous ce qui ce trouve au dessus
+		system("cls");
+
+		//choix du niveau, suivant le choix le nombres d'essaie avant élimination augmente ou diminue. Pour le 1 Le nombres d'essaie et multiplié par 1000.
+		if (choixNiveau == '1')
+		{
+			res1 = res1 * 1000;
+			ess = 1000;
+		}
+
+		if (choixNiveau == '2')
+		{
+			ess = 15;
+		}
+		if (choixNiveau == '3')
+		{
+			ess = 8;
+		}
+		if (choixNiveau == '4')
+		{
+			ess = 4;
+		}
+
+		do
+		{
+
+			//La saisie
+			cout << " Nombres essaie restant avant elimination: " << ess << endl;
+			cout << "  entrez valeurs: " << endl;
+			cin >> saisie;
+
+			if (saisie > res1) // si D de la saisie est supérieur au nombre choisie aléatoirement, alors le message " c'est moins " apparait et la boucle recommence.
+			{
+				system("cls");
+				cout << "  -------------c'est moins------------- " << endl;
+			}
+
+			else if (saisie < res1) // si D de la saisie est inférieur au nombre choisie aléatoirement, alors le message " c'est plus " apparait et la boucle recommence.
+			{
+				system("cls");
+
+				cout << "  -------------c'est plus------------- " << endl;
+			}
+
+			ess--; //enlève un de 1 la variable ess "essaie". A chaque boucle le joueur perd une vie.
+			nbess++; //Compte le nombres d'éssaie. A chque boucle "nbess" est incrementé de 1.
+
+
+			if (saisie == res1 || ess == 0)  // Si le nombre saisie par le joueur dans 'd' est égale à la valeur de "res1" qui est le nombre saisie aléatoirement, ou bien "ess", le nombre d'éssaie est égale à 0, alors on rentre dans ce IF pour déterminer plusieurs choix possible.
+			{
+
+				if (ess == 0)
+				{
+					saisie = res1;
+				}
+				cout << "  " << endl;
+
+				if (saisie == res1 && ess >= 1) // si le joueur a trouvé le bon nombre et que il lui resté des essaies, alors un message de félicitation apparait.
+				{
+					cout << "  felicitation le resulat etait bien de " << res1 << endl;
+
+					switch (nbess) // un switch qui affiche un message suivant le nombres d'éssaie réalisé avant de finir en victoire.
+					{
+					case 1: cout << " one shot serieux ? respect !";
+						break;
+					case 2: cout << "  Tu la presque one shot, impressionnant !";
+						break;
+					case 3: cout << "  Tu la presque one shot, impressionnant !";
+						break;
+					case 4: cout << "  pas mal du tout !";
+						break;
+					case 5: cout << "  Bien joue !";
+						break;
+					case 6: cout << " Bien joue !";
+						break;
+					case 7: cout << "  Bien joue";
+						break;
+					case 8: cout << "  tu etait dans les temps.";
+						break;
+					case 9: cout << "  tres limite, mais c'est passe ! ";
+						break;
+					case 10: cout << "  la mort ne vous effraie pas ! ";
+						break;
+					case 11: cout << "  la mort ne vous effraie pas ! ";
+						break;
+					case 12: cout << "  aie aie aie c'est juste ! ";
+						break;
+					case 13: cout << "  aie aie aie c'est juste ! ";
+						break;
+					case 14: cout << "  vraiment pas passé loin :/ ";
+						break;
+					case 15: cout << "   vraiment pas passé loin :/ ";
+
+
+					}
+					// Ce message du combien d'essaie on était fait avant de gagner.
+					cout << endl;
+					cout << " vous avez trouve la reponse en " << nbess << " essaies !" << endl;
+				}
+
+				if (ess == 0) //si le joueur à utilisé tout ses essaies, un message lui dis qu'il a perdu.
+				{
+					cout << "  Looser " << "le resulatat etait de " << res1 << endl;
+
+					cout << " vous avez fais " << nbess << " essaies !" << endl;
+				}
+
+				Vcase.push_back(nbess);
+
+				cout << "  recommencer?: o : n " << endl; //Un message pour demander si le joueur souhaite ou pas recommencer. Si oui son entree s'incremente dans p qui est la conditon pour sortir ou pas de le boucle.
+				cin >> reesayer;
+
+
+				if (reesayer == 'o') // on réinitialise les valeurs pour que le joueur ne l'ai connaissent plus.
+				{
+					if (choixNiveau == '1')
+					{
+						res1 = res1 * 1000;
+						ess = 1000;
+					}
+
+					if (choixNiveau == '2')
+					{
+						ess = 15;
+						nbess = 0;
+					}
+					if (choixNiveau == '3')
+					{
+						ess = 8;
+						nbess = 0;
+					}
+					if (choixNiveau == '4')
+					{
+						ess = 4;
+						nbess = 0;
+					}
+
+					/*nbess = 0; ess = 15;*/
+					srand(time(NULL));
+					res1 = rand() % 100;
+
+				}
+
+			}
+
+		} while (reesayer != 'n');
+
+
+
+	}
+
+	cout << " vous avez fait " << Vcase.size() << " essaie ! " << endl;
+
+	for (int i = 0; i < Vcase.size(); i++)
+	{
+		cout << endl << " essaie " << i << " :" << Vcase.at(i) << endl;
+	}
+
+	if (choix == ' n' || choix == 'N')
+	{
+		cout << " aurevoir :)" << endl;
+	}
+
+	return 0;
+}
+
+
+
+
+
+void menu(char& c)
+{
+
+	cout << " MENU " << endl;
+
+	cout << "  ------------------------------------------" << endl;
+
+	cout << "  Niveaux de difficulte: " << endl;
+
+	cout << " Libre     : 1" << endl;
+
+	cout << " Facile    : 2" << endl;
+
+	cout << " Difficile : 3" << endl;
+
+	cout << "Impossible: 4" << endl;
+
+	cout << "Choisie la difficulte:" << endl;
+
+	cin >> c;
+}
+
+
+
+
+
+
+
+int JeuOptimisé()
+{
+	int entree = 0;
+	char choix = ' ';
+	//création des variables
+	float e, d;
+	char p = 'f';
+	char s;
+	//fonction pour selectionner un nombres aléatoire en 0 et 100.
+	srand(time(NULL));
+	int res1 = rand() % 100;
+	//initialisation des variables essaie et NbEssaie.
+	int ess = 777;
+	int nbess = 0;
+	//Variable pour entrée une difficulté de niveau
+	char v;
+	vector<double> Vcase;
+
+	cout << endl << endl << endl << endl << endl << "\t\t\t\t\tVoulez vous jouer ? (o:n): " << endl;
+	cin >> choix;
+
+	system("cls");
+
+
+
+	if (choix == 'o' || choix == 'O')
+	{
+
+
+		//Menu du début du jeu
+		cout << " \a "; // son du démarrage
+		cout << " " << endl;
+		cout << "\t\t\t\t\t\tMENU " << endl;
+		cout << " " << endl;
+		cout << " \t\t\t\t------------------------------------------" << endl;
+		cout << " " << endl;
+		cout << " \t\t\t\t\tNiveaux de difficulte: " << endl;
+		cout << " " << endl;
+		cout << "\t\t\t\t\tLibre     : 1" << endl;
+		cout << " " << endl;
+		cout << "\t\t\t\t\tFacile    : 2" << endl;
+		cout << " " << endl;
+		cout << "\t\t\t\t\tDifficile : 3" << endl;
+		cout << " " << endl;
+		cout << "\t\t\t\t\tImpossible: 4" << endl;
+		cout << " " << endl;
+		cout << "\t\t\t\t\tChoisie la difficulte:" << endl;
+		cin >> v;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Vous avez entrez une mauvaise methode d'entr\202e :/";
+
+		}
+		//Fonction pour éffacer tous ce qui ce trouve au dessus
+		system("cls");
+		//choix du niveau, suivant le choix le nombres d'essaie avant élimination augmente ou diminue. Pour le 1 Le nombres d'essaie et multiplié par 1000.
+		if (v == '1')
+		{
+			res1 = res1 * 1000;
+			ess = 1000;
+		}
+
+		if (v == '2')
+		{
+			ess = 15;
+		}
+		if (v == '3')
+		{
+			ess = 8;
+		}
+		if (v == '4')
+		{
+			ess = 4;
+		}
+		if (v == 's')
+		{
+			p = 'n';
+		}
+
+		do
+		{
+
+
+			if (v == 's')
+			{
+				cout << "Au revoir " << ess << endl;
+			}
+			//La saisie
+			cout << " " << endl;
+			cout << " " << endl;
+			cout << " " << endl;
+			cout << "\t\t\t\tNombres essaie restant avant elimination: " << ess << endl;
+			cout << " \t\t\t\tentrez valeurs: " << endl;
+			cin >> d;
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore(10000, '\n');
+				cout << "Vous avez entrez une mauvaise methode d'entr\202e :/";
+
+			}
+
+			if (d > res1) // si D de la saisie est supérieur au nombre choisie aléatoirement, alors le message " c'est moins " apparait et la boucle recommence.
+			{
+				system("cls");
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " \t\t\t\t-------------c'est moins------------- " << endl;
+				cout << " " << endl;
+			}
+
+			else if (d < res1) // si D de la saisie est inférieur au nombre choisie aléatoirement, alors le message " c'est plus " apparait et la boucle recommence.
+			{
+				system("cls");
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " " << endl;
+				cout << " \t\t\t\t-------------c'est plus------------- " << endl;
+				cout << " " << endl;
+			}
+
+			ess--; //enlève un de 1 la variable ess "essaie". A chaque boucle le joueur perd une vie.
+			nbess++; //Compte le nombres d'éssaie. A chque boucle "nbess" est incrementé de 1.
+
+
+			if (d == res1 || ess == 0)  // Si le nombre saisie par le joueur dans 'd' est égale à la valeur de "res1" qui est le nombre saisie aléatoirement, ou bien "ess", le nombre d'éssaie est égale à 0, alors on rentre dans ce IF pour déterminer plusieurs choix possible.
+			{
+
+				if (ess == 0)
+				{
+					d = res1;
+				}
+				cout << "  " << endl;
+
+				if (d == res1 && ess >= 1) // si le joueur a trouvé le bon nombre et que il lui resté des essaies, alors un message de félicitation apparait.
+				{
+					cout << " " << endl;
+					cout << " \t\t\t-------------------------------------------------------" << endl;
+					cout << " " << endl;
+					cout << " \t\t\t\tfelicitation le resulat etait bien de " << res1 << endl;
+					cout << " " << endl;
+
+					switch (nbess) // un switch qui affiche un message suivant le nombres d'éssaie réalisé avant de finir en victoire.
+					{
+					case 1: cout << "\t\t\t\tone shot serieux ? respect !";
+						break;
+					case 2: cout << " \t\t\t\tTu la presque one shot, impressionnant !";
+						break;
+					case 3: cout << " \t\t\t\tTu la presque one shot, impressionnant !";
+						break;
+					case 4: cout << " \t\t\t\tpas mal du tout !";
+						break;
+					case 5: cout << " \t\t\t\tBien joue !";
+						break;
+					case 6: cout << "\t\t\t\tBien joue !";
+						break;
+					case 7: cout << " \t\t\t\tBien joue";
+						break;
+					case 8: cout << " \t\t\t\ttu etait dans les temps.";
+						break;
+					case 9: cout << " \t\t\t\ttres limite, mais c'est passe ! ";
+						break;
+					case 10: cout << " \t\t\t\tla mort ne vous effraie pas ! ";
+						break;
+					case 11: cout << " \t\t\t\tla mort ne vous effraie pas ! ";
+						break;
+					case 12: cout << " \t\t\t\taie aie aie c'est juste ! ";
+						break;
+					case 13: cout << " \t\t\t\taie aie aie c'est juste ! ";
+						break;
+					case 14: cout << " \t\t\t\tvraiment pas passé loin :/ ";
+						break;
+					case 15: cout << "  \t\t\t\tvraiment pas passé loin :/ ";
+
+
+					}
+					// Ce message du combien d'essaie on était fait avant de gagner.
+					cout << endl;
+					cout << "\t\t\t\tvous avez trouve la reponse en " << nbess << " essaies !" << endl;
+				}
+
+				if (ess == 0) //si le joueur à utilisé tout ses essaies, un message lui dis qu'il a perdu.
+				{
+					cout << " " << endl;
+					cout << " \t\t\t-------------------------------------------------------" << endl;
+					cout << " " << endl;
+					cout << " \t\t\t\tLooser " << "le resulatat etait de " << res1 << endl;
+					cout << " " << endl;
+					cout << "\t\t\t\tvous avez fais " << nbess << " essaies !" << endl;
+				}
+
+				Vcase.push_back(nbess);
+
+				cout << " \t\t\t\trecommencer?: o : n " << endl; //Un message pour demander si le joueur souhaite ou pas recommencer. Si oui son entree s'incremente dans p qui est la conditon pour sortir ou pas de le boucle.
+				cin >> p;
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(10000, '\n');
+					cout << "Vous avez entrez une mauvaise methode d'entr\202e :/";
+
+				}
+
+				if (p == 'o') // on réinitialise les valeurs pour que le joueur ne l'ai connaissent plus.
+				{
+					if (v == '1')
+					{
+						res1 = res1 * 1000;
+						ess = 1000;
+					}
+
+					if (v == '2')
+					{
+						ess = 15;
+						nbess = 0;
+					}
+					if (v == '3')
+					{
+						ess = 8;
+						nbess = 0;
+					}
+					if (v == '4')
+					{
+						ess = 4;
+						nbess = 0;
+					}
+
+					/*nbess = 0; ess = 15;*/
+					srand(time(NULL));
+					res1 = rand() % 100;
+
+
+				}
+
+
+
+
+			}
+
+
+
+		} while (p != 'n');
+
+
+
+	}
+
+	cout << " vous avez fait " << Vcase.size() << " essaie ! " << endl;
+
+	for (int i = 1; i < Vcase.size(); i++)
+	{
+		cout << endl << " essaie " << i << " :" << Vcase.at(i) << endl;
+	}
+
+	if (choix == ' n' || choix == 'N')
+	{
+		cout << " aurevoir :)" << endl;
+	}
+
+
+
+
+
+
+
+	return 0;
+}
+
+int main()
+{
+	JeuOptimisé();
+	return 0;
+}
